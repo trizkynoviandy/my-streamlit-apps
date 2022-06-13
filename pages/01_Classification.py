@@ -11,8 +11,8 @@ option = st.sidebar.selectbox(
       'Titanic Survival Prediction'))
 
 if option == "Movie Review Sentiment Prediction":
-    loaded_model = joblib.load("models/classification/movie_review_model.sav")
-    st.markdown('#### ' +   option)
+    loaded_model = joblib.load("models/classification/movie_review/movie_review_model.sav")
+    st.markdown('#### ' + option)
     st.markdown("""
                 Predict the sentiment in a movie review
                 * This app used logistic regression to train this model, with 91% and 89% accuracy on the training set and the testing set, respectively
@@ -35,9 +35,9 @@ if option == "Movie Review Sentiment Prediction":
             
 elif option == "Diabetes Prediction":
     
-    loaded_model = joblib.load("models/classification/diabetes_prediction_model.sav")
+    loaded_model = joblib.load("models/classification/diabetes_prediction/diabetes_prediction_model.sav")
+    st.markdown('#### ' + option)
     st.markdown("""
-            # Diabetes Prediction Dashboard
             * Predict whether or not you have diabetes, based on several medical predictor variable
             
             * The predictions obtained by this application have no medical value, to get accurate results please consult a doctor.
