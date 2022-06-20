@@ -5,12 +5,17 @@ st.title("Classification Apps")
 
 option = st.sidebar.selectbox(
      'Select Classification Apps',
-     ('Diabetes Prediction',
+     ('-',
+      'Diabetes Prediction',
       'Heart Disease Prediction',
       'Movie Review Sentiment Prediction',
       'Titanic Survival Prediction'))
 
-if option == "Movie Review Sentiment Prediction":
+if option == "-":
+    st.write("[Please select a classification app]")
+
+
+elif option == "Movie Review Sentiment Prediction":
     loaded_model = joblib.load("models/classification/movie_review/movie_review_model.sav")
     st.markdown('#### ' + option)
     st.markdown("""

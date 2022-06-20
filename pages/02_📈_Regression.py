@@ -6,9 +6,48 @@ st.title("Regression Apps")
 option = st.sidebar.selectbox(
      'Select Regression Apps',
      ('Personal Insurance Cost',
+      'QSAR Fish Toxicity',
       'Vehicle Fuel Efficiency'))
 
-if option == "Vehicle Fuel Efficiency":
+if option == "-":
+    st.write("[Please select a classification app]")
+elif option == "Personal Insurance Cost":
+    st.write("Personal Insurance Cost")
+elif option == "QSAR Fish Toxicity":
+    loaded_model = joblib.load("models/regression/qsar_fish_toxicity/qsar_fish_toxicity_model.sav")
+    st.markdown("#### " + option)
+    st.markdown("""
+            * Predict acute aquatic toxicity towards the fish Pimephales promelas (fathead minnow)
+            
+            * Dataset source: <https://archive.ics.uci.edu/ml/datasets/QSAR+fish+toxicity>
+            """)
+    st.image("https://www.situbiosciences.com/wp-content/uploads/2017/05/fathead-minnow.jpg")
+    
+    st.write("1. CIC0")
+    user_input_1 = st.number_input("CIC0")
+    st.write("2. SM1_Dz(Z)")
+    user_input_2 = st.number_input("SM1_Dz(Z)")
+    st.write("3. GATS1i")
+    user_input_3 = st.number_input("GATS1i")
+    st.write("4. NdsCH")
+    user_input_4 = st.number_input("NdsCH")
+    st.write("5. NdssC")
+    user_input_5 = st.number_input("NdssC")
+    st.write("6. MLOGP")
+    user_input_6 = st.number_input("MLOGP")
+            
+    input_data = [[user_input_1, user_input_2, user_input_3, user_input_4, user_input_5, user_input_6]]
+    predict = st.button("Predict")
+    
+    if predict:
+        try:
+            prediction = loaded_model.predict(input_data)
+            st.success("Prediction Succesful!")
+            st.write(f"Predicted Fish Toxicity: {float(prediction):.3f}")
+        except ValueError:
+            st.write("Make sure you have entered all the required data")
+            
+elif option == "Vehicle Fuel Efficiency":
     
     loaded_model = joblib.load("models/regression/vehicle_fuel_efficiency/vehicle_fuel_efficiency_model.sav")
     st.markdown("""
