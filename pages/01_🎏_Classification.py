@@ -14,7 +14,6 @@ option = st.sidebar.selectbox(
 if option == "-":
     st.write("[Please select a classification app]")
 
-
 elif option == "Movie Review Sentiment Prediction":
     loaded_model = joblib.load("models/classification/movie_review/movie_review_model.sav")
     st.markdown('#### ' + option)
@@ -78,6 +77,39 @@ elif option == "Diabetes Prediction":
                 st.write("Result: NEGATIVE")
             else:
                 st.write("Result: POSITIVE")
+        except ValueError:
+            st.write("Make sure you have entered all the required data")
+            
+elif option == "Titanic Survival Prediction":
+    
+    loaded_model = joblib.load("models/classification/diabetes_prediction/diabetes_prediction_model.sav")
+    st.markdown('#### ' + option)
+    st.markdown("""
+            * Predict whether a person survived the titanic or not
+        
+            * Dataset source: <https://www.kaggle.com/c/titanic>
+            """)
+    st.image("https://www.worldhistory.org/img/c/p/1200x627/14047.png")
+    
+    user_input_1 = st.slider("1. Passenger Class", min_value=1, max_value=3)
+    user_input_2 = st.radio("2. Passenger Sex", options=["Male", "Female"])
+    user_input_3 = st.slider("3. Passenger Age (Year)", min_value=1, max_value=100)
+    user_input_4 = st.number_input("4. SibSp")
+    user_input_5 = st.number_input("5. Parch")
+    user_input_6 = st.number_input("6. Fare")
+    user_input_7 = st.radio("2. Passenger Sex", options=["Cherbourg", "Queenstown", "Southampton"])
+    input_data = [[user_input_1, user_input_2, user_input_3, user_input_4, user_input_5, user_input_6, user_input_7]]
+
+    predict = st.button("Predict")
+    
+    if predict:
+        try:
+            prediction = loaded_model.predict(input_data)
+            st.success('Prediction Succesful!')
+            if str(prediction) == "[0]":
+                st.write("Result: NOT SURVIVED")
+            else:
+                st.write("Result: SURVIVED")
         except ValueError:
             st.write("Make sure you have entered all the required data")
     
