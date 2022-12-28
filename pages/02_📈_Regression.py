@@ -7,12 +7,15 @@ option = st.sidebar.selectbox(
      'Select Regression Apps',
      ('Personal Insurance Cost',
       'QSAR Fish Toxicity',
+      ('University Admission'),
       'Vehicle Fuel Efficiency'))
 
 if option == "-":
     st.write("[Please select a classification app]")
+    
 elif option == "Personal Insurance Cost":
     st.write("Personal Insurance Cost")
+    
 elif option == "QSAR Fish Toxicity":
     loaded_model = joblib.load("models/regression/qsar_fish_toxicity/qsar_fish_toxicity_model.sav")
     st.markdown("#### " + option)
@@ -47,6 +50,49 @@ elif option == "QSAR Fish Toxicity":
         except ValueError:
             st.write("Make sure you have entered all the required data")
             
+
+## UNIVERSITY ADMISSION ##
+
+elif option == "University Admission":
+    loaded_model = joblib.load("models/regression/university_admission/university_admission.sav")
+    st.markdown("""
+            # University Admission
+            * Predict university admission
+            
+            * Dataset source: <https://www.kaggle.com/datasets/akshaydattatraykhare/data-for-admission-in-the-university>
+            """)
+    
+    st.write("1. GRE Score")
+    user_input_1 = st.number_input("GRE Score")
+    st.write("2. TOEFL Score")
+    user_input_2 = st.number_input("TOEFL Score")
+    st.write("3. University Rating")
+    user_input_3 = st.number_input("University Rating")
+    st.write("4. SOP")
+    user_input_4 = st.number_input("SOP")
+    st.write("5. LOR")
+    user_input_5 = st.number_input("LOR")
+    st.write("6. CGPA")
+    user_input_6 = st.number_input("CGPA")
+    st.write("7. Research")
+    user_input_7 = st.number_input("Research")
+            
+    input_data = [[user_input_1, user_input_2, user_input_3, user_input_4, user_input_5, user_input_6, user_input_7]]
+    predict = st.button("Predict")
+    
+    if predict:
+        print("haha")
+        print(input_data)
+        try:
+            prediction = loaded_model.predict(input_data)
+            st.success("Prediction Succesful!")
+            st.write(f"University Admission Chance: {float(prediction *100):.2f}%")
+        except ValueError:
+            st.write("Make sure you have entered all the required data")
+   
+
+## VEHICLE FUEL EFFICIENCY ##
+
 elif option == "Vehicle Fuel Efficiency":
     
     loaded_model = joblib.load("models/regression/vehicle_fuel_efficiency/vehicle_fuel_efficiency_model.sav")
