@@ -27,17 +27,17 @@ elif option == "QSAR Fish Toxicity":
     st.image("https://www.situbiosciences.com/wp-content/uploads/2017/05/fathead-minnow.jpg")
     
     st.write("1. CIC0")
-    user_input_1 = st.number_input("CIC0")
+    user_input_1 = st.number_input("Set of indices of neighbourhood symmetry")
     st.write("2. SM1_Dz(Z)")
-    user_input_2 = st.number_input("SM1_Dz(Z)")
+    user_input_2 = st.number_input("Set of descriptors calculated from 2D matrices derived from the molecular graph (2D matrix-based descriptors)")
     st.write("3. GATS1i")
-    user_input_3 = st.number_input("GATS1i")
+    user_input_3 = st.number_input("2D Geary autocorrelation descriptor")
     st.write("4. NdsCH")
-    user_input_4 = st.number_input("NdsCH")
+    user_input_4 = st.number_input("Count the number of unsaturated sp2 carbon atoms of the type =CH-")
     st.write("5. NdssC")
-    user_input_5 = st.number_input("NdssC")
+    user_input_5 = st.number_input("Count the number of unsaturated sp2 carbon atoms of the type =C")
     st.write("6. MLOGP")
-    user_input_6 = st.number_input("MLOGP")
+    user_input_6 = st.number_input("The octanol-water partitioning coefficient (log P) calculated by means of the Moriguchi model")
             
     input_data = [[user_input_1, user_input_2, user_input_3, user_input_4, user_input_5, user_input_6]]
     predict = st.button("Predict")
