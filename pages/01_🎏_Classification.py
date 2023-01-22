@@ -42,11 +42,11 @@ elif option == "Movie Review Sentiment Prediction":
                 st.success('DONE: This is a positive review')
         except ValueError:
             st.write("Make sure your data is correct")
-elif option == "Flower Prediction":
+elif option == "Flower Image Classification":
     loaded_model = tf.keras.models.load_model("models/classification/flower_prediction/flower_prediction.h5")
     st.markdown('#### ' + option)
     st.markdown("""
-            * Predict the type of flower based on the given image. There are five flowers that this model can predict: daisy, dandelion, roses, sunflowers, and tulips"
+            * Classify the type of flower based on the given image. There are five flowers that this model can classify: daisy, dandelion, roses, sunflowers, and tulips.
             """)
     
     class_names = ['daisy', 'dandelion', 'roses', 'sunflowers', 'tulips']
