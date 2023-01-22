@@ -12,7 +12,7 @@ option = st.sidebar.selectbox(
      'Select Classification Apps',
      ('-',
       'Diabetes Prediction',
-      'Flower Prediction',
+      'Flower Image Classification',
       'Heart Disease Prediction',
       'Movie Review Sentiment Prediction',
       'Titanic Survival Prediction'))
