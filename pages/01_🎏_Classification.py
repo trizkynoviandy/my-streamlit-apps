@@ -1,5 +1,10 @@
 import joblib
+import numpy as np
+import PIL
 import streamlit as st
+import tensorflow as tf
+
+from skimage import transform
 
 st.title("Classification Apps")
 
@@ -7,6 +12,7 @@ option = st.sidebar.selectbox(
      'Select Classification Apps',
      ('-',
       'Diabetes Prediction',
+      'Flower Prediction',
       'Heart Disease Prediction',
       'Movie Review Sentiment Prediction',
       'Titanic Survival Prediction'))
@@ -36,7 +42,34 @@ elif option == "Movie Review Sentiment Prediction":
                 st.success('DONE: This is a positive review')
         except ValueError:
             st.write("Make sure your data is correct")
-            
+elif option == "Flower Prediction":
+    loaded_model = tf.keras.models.load_model("models/classification/flower_prediction/flower_prediction.h5")
+    st.markdown('#### ' + option)
+    st.markdown("""
+            * Predict the type of flower based on the given image. There are five flowers that this model can predict: daisy, dandelion, roses, sunflowers, and tulips"
+            """)
+    
+    class_names = ['daisy', 'dandelion', 'roses', 'sunflowers', 'tulips']
+    
+    upload= st.file_uploader('Insert image for prediction', type=['png','jpg'])
+    c1, c2, c3= st.columns(3)
+    if upload is not None:
+        np_image = PIL.Image.open(upload)
+        np_image = np.array(np_image).astype('float32')/255
+        np_image = transform.resize(np_image, (180, 180, 3))
+        np_image = np.expand_dims(np_image, axis=0)
+        predict = loaded_model.predict(np_image)[0]    
+        c1.header('Input Image')
+        c2.header('Classes')
+        c3.header('Probability')
+        c1.image(np_image)
+        #c2.subheader({class_names[i]: float(predict[i]) for i in range(5)})
+        for i, names in enumerate(class_names):
+            c2.write(class_names[i])
+            c3.write(f"{predict[i] * 100:.2f} %")
+        
+        st.subheader(f"The Predicted Class is : :blue[_{class_names[np.argmax(predict)]}_]")
+
 elif option == "Diabetes Prediction":
     
     loaded_model = joblib.load("models/classification/diabetes_prediction/diabetes_prediction_model.sav")
