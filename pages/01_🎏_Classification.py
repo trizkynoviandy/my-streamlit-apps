@@ -11,6 +11,7 @@ st.title("Classification Apps")
 option = st.sidebar.selectbox(
      'Select Classification Apps',
      ('-',
+      'Depression Prediction',
       'Diabetes Prediction',
       'Flower Image Classification',
       'Heart Disease Prediction',
@@ -19,6 +20,59 @@ option = st.sidebar.selectbox(
 
 if option == "-":
     st.write("[Please select a classification app]")
+
+elif option == "Depression Prediction":
+    loaded_model = joblib.load("models/classification/depression_classification/depression_prediction.sav")
+    st.markdown('#### ' + option)
+    st.markdown("""
+                This project uses natural language processing and machine learning algorithms to predict if a 
+                user is depressed based on their text post. The goal of this project is to develop a model 
+                that can accurately identify if a user is suffering from depression, which could have 
+                important implications for mental health interventions and support.
+                * The model is trained using SVM, with accuracy and f1-score of 96.2% on the testing set
+                
+                * Dataset source: [Kaggle](https://www.kaggle.com/datasets/infamouscoder/depression-reddit-cleaned)
+                """)
+
+    text_input = st.text_area(label="Input user post", height=250)
+    predict = st.button("Predict")
+
+    if predict:
+        try:
+            hehe = loaded_model.predict_proba(list([text_input]))
+            if hehe[0][0] > 0.5:
+                st.success(f'This user is not depressed (Probability: {hehe[0][0] * 100:.2f}%)')
+            else:
+                st.success(f'This user is depressed (Probability: {hehe[0][1] * 100:.2f}%)')
+        except ValueError:
+            st.write("Make sure your data is correct")
+elif option == "Flower Image Classification":
+    loaded_model = tf.keras.models.load_model("models/classification/flower_prediction/flower_prediction.h5")
+    st.markdown('#### ' + option)
+    st.markdown("""
+            * Classify the type of flower based on the given image. There are five flowers that this model can classify: daisy, dandelion, roses, sunflowers, and tulips.
+            """)
+    
+    class_names = ['daisy', 'dandelion', 'roses', 'sunflowers', 'tulips']
+    
+    upload= st.file_uploader('Insert image for prediction', type=['png','jpg'])
+    c1, c2, c3= st.columns(3)
+    if upload is not None:
+        np_image = PIL.Image.open(upload)
+        np_image = np.array(np_image).astype('float32')/255
+        np_image = transform.resize(np_image, (180, 180, 3))
+        np_image = np.expand_dims(np_image, axis=0)
+        predict = loaded_model.predict(np_image)[0]    
+        c1.header('Input Image')
+        c2.header('Classes')
+        c3.header('Probability')
+        c1.image(np_image)
+        #c2.subheader({class_names[i]: float(predict[i]) for i in range(5)})
+        for i, names in enumerate(class_names):
+            c2.write(class_names[i])
+            c3.write(f"{predict[i] * 100:.2f} %")
+        
+        st.subheader(f"The Predicted Class is : :blue[_{class_names[np.argmax(predict)]}_]")
 
 elif option == "Movie Review Sentiment Prediction":
     loaded_model = joblib.load("models/classification/movie_review/movie_review_model.sav")
